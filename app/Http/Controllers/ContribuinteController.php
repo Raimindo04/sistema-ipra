@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\IpraFormsExport;
 use App\Models\Bairro;
 use App\Models\ClasseImovel;
 use App\Models\FinalidadeImovel;
@@ -11,6 +12,7 @@ use App\Models\TipoDocumentoIdentificacao;
 use App\Models\Zona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ContribuinteController extends Controller
 {
@@ -29,7 +31,9 @@ class ContribuinteController extends Controller
         $classesImovel = \App\Models\ClasseImovel::all();
         $finalidadesImovel = \App\Models\FinalidadeImovel::all();
 
-        $bairros = PostoAdministrativo::find($dados['posto_administrativo'] ?? null)->bairros ?? collect();
+        $bairros = ($postoId = old('posto_administrativo') ?? ($dados['posto_administrativo'] ?? null))
+            ? (PostoAdministrativo::find($postoId)->bairros ?? collect())
+            : collect();
 
         return view('contribuintes.create', compact('postosAdministrativos','tiposDocumentoIdentificacao', 'zonas', 'classesImovel', 'finalidadesImovel', 'dados', 'bairros'));
     }
@@ -69,8 +73,8 @@ class ContribuinteController extends Controller
         'posto_administrativo' => 'required|exists:posto_administrativos,id',
         'bairro' => 'required|exists:bairros,id',
         'avenida' => 'required|string|max:100',
-        'unidade_comunal' => 'required|string|max:100',
-        'quarteirao' => 'required|string|max:50',
+        'unidade_comunal' => 'nullable|string|max:100',
+        'quarteirao' => 'nullable|string|max:50',
         'proximo_de' => 'nullable|string|max:100',
         'numero_talhao' => 'nullable|string|max:50',
         'numero_parcela' => 'nullable|string|max:50',
@@ -78,7 +82,7 @@ class ContribuinteController extends Controller
         'ano_construcao' => 'required|integer|min:1800|max:' . date('Y'),
         'area_construida' => 'required|numeric|min:1',
         'area_terreno' => 'required|numeric|min:1',
-        'numero_andares' => 'required|integer|min:1',
+        'numero_andares' => 'nullable|integer|min:1',
         'tipo_construcao' => 'required|string|max:50',
         'classe_imovel' => 'required|exists:classe_imovels,id',
         'zona' => 'required|exists:zonas,id',
@@ -86,8 +90,8 @@ class ContribuinteController extends Controller
         'status_isencao' => 'nullable|string|max:255',
         'area_isentada' => 'nullable|numeric|min:0',
         'tipo_valor_patrimonial' => 'required|string|max:50',
-        'valor_patrimonial' => 'required|numeric|min:0',
-        'tipo_aquisicao' => 'required|string|max:50',
+        'valor_patrimonial' => 'nullable|numeric|min:0',
+        'tipo_aquisicao' => 'nullable|string|max:50',
         'numero_insercao_matriz' => 'nullable|string|max:50',
         'pluscode' => 'nullable|string|max:50',
         'observacoes' => 'nullable|string|max:1000',
@@ -102,7 +106,7 @@ class ContribuinteController extends Controller
         'ps_validade_documento' => 'required|date',
         'ps_nacionalidade' => 'required|string|max:100',
         'ps_nuit' => 'required|string|max:20',
-        'ps_telefone' => 'required|string|max:20',
+        'ps_telefone' => ['required', 'regex:/^(82|83|84|85|86|87)\d{7}$/'],
         'ps_telefone_fixo' => 'nullable|string|max:20',
         'ps_telefone_opcional' => 'nullable|string|max:20',
         'ps_endereco' => 'required|string|max:255',
@@ -114,8 +118,8 @@ class ContribuinteController extends Controller
         'pj_representante' => 'required|string|max:255',
         'pj_nome_empresa' => 'required|string|max:255',
         'pj_nuit' => 'required|string|max:20',
-        'pj_telefone' => 'required|string|max:20',
-        'pj_telefone_fixo' => 'required|string|max:20',
+        'pj_telefone' => ['required', 'regex:/^(82|83|84|85|86|87)\d{7}$/'],
+        'pj_telefone_fixo' => 'nullable|string|max:20',
         'pj_telefone_opcional' => 'nullable|string|max:20',
         'pj_endereco' => 'required|string|max:255',
         'pj_email' => 'required|email',
@@ -132,13 +136,17 @@ class ContribuinteController extends Controller
     }
 
 
-        $validator = Validator::make($request->all(), $regras);
+        // $validator = Validator::make($request->all(), $regras);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return redirect()->back()
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
+        $request->validate($regras, [
+        'ps_telefone.regex' => 'O telefone deve começar com 82, 83, 84, 85, 86 ou 87 e conter 9 dígitos no total.',
+        'pj_telefone.regex' => 'O telefone deve começar com 82, 83, 84, 85, 86 ou 87 e conter 9 dígitos no total.',
+    ]);
 
         // Armazena dados em sessão temporária para confirmação
         $dados = $request->all();
@@ -262,5 +270,10 @@ class ContribuinteController extends Controller
         else if ($ano >= 1975) $valor = 0.70;
         else $valor = 0.65;
         return $valor;
+    }
+
+     public function export()
+    {
+        return Excel::download(new IpraFormsExport, 'ipraforms.xlsx');
     }
 }

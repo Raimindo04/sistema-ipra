@@ -335,7 +335,7 @@
                       Ano de construção
                     </span>
                     <span class="text-gray-900 font-medium mt-1 break-words">
-                    {{ $dataToShow['ano_construcao'] }} m²
+                    {{ $dataToShow['ano_construcao'] }}
                     </span>
                 </div>
 
@@ -344,7 +344,7 @@
                      Área construída
                     </span>
                     <span class="text-gray-900 font-medium mt-1 break-words">
-                    {{ $dataToShow['area_construida'] }}
+                    {{ $dataToShow['area_construida'] }} m²
                     </span>
                 </div>
 

@@ -1,9 +1,11 @@
 <?php
 
+use App\Exports\IpraFormsExport;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ContribuinteController;
 use App\Models\PostoAdministrativo;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +23,7 @@ Route::get('/bairros/{posto_administrativo}', function($id){
     $postoAdministrativo = PostoAdministrativo::find($id);
     return response()->json($postoAdministrativo->bairros);
 });
-
-
+Route::get('/ipraforms/export', [ContribuinteController::class, 'export'])->name('ipraforms.export');
 
 Route::get('/', [ContribuinteController::class, 'index']);
 Route::get('/contribuintes', [ContribuinteController::class, 'index'])->name('contribuintes.index');

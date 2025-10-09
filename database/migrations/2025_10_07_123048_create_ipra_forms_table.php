@@ -53,8 +53,8 @@ class CreateIpraFormsTable extends Migration
             $table->string('status_isencao')->nullable();
             $table->decimal('area_isentada', 10,2)->nullable();
             $table->string('tipo_valor_patrimonial');
-            $table->decimal('valor_patrimonial',  15, 2);
-            $table->string('tipo_aquisicao');
+            $table->decimal('valor_patrimonial',  15, 2)->nullable();
+            $table->string('tipo_aquisicao')->nullable();
             $table->string('numero_insercao_matriz')->nullable();
             $table->text('observacoes')->nullable();
             $table->timestamps();

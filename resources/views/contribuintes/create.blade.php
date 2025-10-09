@@ -32,7 +32,7 @@
 
 <!-- Escolha do Tipo -->
   <div class="mb-6">
-    <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de Contribuinte</label>
+    <label class="block text-sm font-medium text-gray-700 mb-2"> Tipo de Contribuinte<strong class="text-red-700">*</strong></label>
     <div class="flex gap-6">
       <label class="flex items-center gap-2">
         <input type="radio" name="tipoPessoa" value="Singular" class="text-green-600 focus:ring-green-500" {{ old('tipoPessoa', $dados['tipoPessoa'] ?? 'Singular' ) === 'Singular' ? 'checked' : '' }} />
@@ -50,28 +50,28 @@
     <h3 class="font-semibold text-gray-800 mb-4">Pessoa Jurídica</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
-        <label class="block text-sm font-medium">Representante </label>
+        <label class="block text-sm font-medium">Representante <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2 @error('pj_representante') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror " name="pj_representante" value="{{ old('pj_representante', $dados['pj_representante'] ?? '') }}"/>
         @error('pj_representante')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Nome da Empresa</label>
+        <label class="block text-sm font-medium">Nome da Empresa <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2 @error('pj_nome_empresa') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror " name="pj_nome_empresa" value="{{ old('pj_nome_empresa', $dados['pj_nome_empresa'] ?? '') }}"/>
         @error('pj_nome_empresa')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">NUIT</label>
+        <label class="block text-sm font-medium">NUIT <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2  @error('pj_nuit') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="pj_nuit" value="{{ old('pj_nuit', $dados['pj_nuit'] ?? '') }}"/>
         @error('pj_nuit')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Número de Telefone <strong>(+258)</strong></label>
+        <label class="block text-sm font-medium">Número de Telefone <strong>(+258)</strong> <strong class="text-red-700">*</strong></label>
         <input type="tel" class="w-full rounded-lg border p-2  @error('pj_telefone') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="pj_telefone" value="{{ old('pj_telefone', $dados['pj_telefone'] ?? '') }}"/>
         @error('pj_telefone')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -92,14 +92,14 @@
         @enderror
       </div>
       <div class="sm:col-span-2">
-        <label class="block text-sm font-medium">Endereço</label>
+        <label class="block text-sm font-medium">Endereço <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2  @error('pj_endereco') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="pj_endereco" value="{{ old('pj_endereco', $dados['pj_endereco'] ?? '') }}"/>
         @error('pj_endereco')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div class="sm:col-span-2">
-        <label class="block text-sm font-medium">Email</label>
+        <label class="block text-sm font-medium">Email <strong class="text-red-700">*</strong></label>
         <input type="email" class="w-full rounded-lg border p-2  @error('pj_email') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="pj_email" value="{{ old('pj_email', $dados['pj_email'] ?? '') }}"/>
         @error('pj_email')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -113,21 +113,21 @@
     <h3 class="font-semibold text-gray-800 mb-4">Pessoa Singular</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
-        <label class="block text-sm font-medium">Nome</label>
+        <label class="block text-sm font-medium">Nome <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2  @error('ps_nome') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_nome" value="{{ old('ps_nome', $dados['ps_nome'] ?? '') }}"/>
         @error('ps_nome')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Apelido</label>
+        <label class="block text-sm font-medium">Apelido <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2  @error('ps_apelido') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_apelido" value="{{ old('ps_apelido', $dados['ps_apelido'] ?? '') }}"/>
         @error('ps_apelido')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Tipo de Documento de  Identificação</label>
+        <label class="block text-sm font-medium">Tipo de Documento de  Identificação <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2  @error('ps_tipo_documento') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_tipo_documento">
           <option>{{ __('-- Selecione o documento de  Identificação --') }}</option>
             @foreach ($tiposDocumentoIdentificacao as $tipo)
@@ -139,35 +139,35 @@
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Número de Documento</label>
+        <label class="block text-sm font-medium">Número de Documento <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2  @error('ps_numero_documento') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_numero_documento" value="{{ old('ps_numero_documento', $dados['ps_numero_documento'] ?? '') }}"/>
         @error('ps_numero_documento')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Validade do Documento</label>
+        <label class="block text-sm font-medium">Validade do Documento <strong class="text-red-700">*</strong></label>
         <input type="date" class="w-full rounded-lg border p-2  @error('ps_validade_documento') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_validade_documento" value="{{ old('ps_validade_documento', $dados['ps_validade_documento'] ?? '') }}"/>
         @error('ps_validade_documento')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Nacionalidade *</label>
+        <label class="block text-sm font-medium">Nacionalidade <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2  @error('ps_nacionalidade') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_nacionalidade" value="{{ old('ps_nacionalidade', $dados['ps_nacionalidade'] ?? '') }}"/>
         @error('ps_nacionalidade')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">NUIT</label>
+        <label class="block text-sm font-medium">NUIT <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2  @error('ps_nuit') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_nuit" value="{{ old('ps_nuit', $dados['ps_nuit'] ?? '') }}"/>
         @error('ps_nuit')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Número de Telefone <strong>(+258)</strong></label>
+        <label class="block text-sm font-medium">Número de Telefone <strong>(+258)</strong> <strong class="text-red-700">*</strong></label>
         <input type="tel" class="w-full rounded-lg border p-2  @error('ps_telefone') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_telefone" value="{{ old('ps_telefone', $dados['ps_telefone'] ?? '') }}"/>
         @error('ps_telefone')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -188,14 +188,14 @@
         @enderror
       </div>
       <div class="sm:col-span-2">
-        <label class="block text-sm font-medium">Endereço</label>
+        <label class="block text-sm font-medium">Endereço <strong class="text-red-700">*</strong></label>
         <input type="text" class="w-full rounded-lg border p-2  @error('ps_endereco') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_endereco" value="{{ old('ps_endereco', $dados['ps_endereco'] ?? '') }}" />
         @error('ps_endereco')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div class="sm:col-span-2">
-        <label class="block text-sm font-medium">Email *</label>
+        <label class="block text-sm font-medium">Email <strong class="text-red-700">*</strong></label>
         <input type="email" class="w-full rounded-lg border p-2  @error('ps_email') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_email" value="{{ old('ps_email', $dados['ps_email'] ?? '') }}"/>
         @error('ps_email')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -210,14 +210,14 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
       <div>
-        <label class="block text-sm font-medium">Pluscode</label>
+        <label class="block text-sm font-medium">Pluscode <strong class="text-red-700">*</strong></label>
         <input type="text" name="pluscode" class="w-full rounded-lg border p-2 @error('pluscode') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" value="{{ old('pluscode', $dados['pluscode'] ?? '') }}" />
         @error('pluscode')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Posto Administrativo</label>
+        <label class="block text-sm font-medium">Posto Administrativo <strong class="text-red-700">*</strong></label>
         <select id="postoAdministrativo" class="w-full rounded-lg border p-2  @error('posto_administrativo') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="posto_administrativo">
           <option >{{ __('-- Selecione o posto administrativo --') }}</option>
             @foreach($postosAdministrativos as $posto)
@@ -229,7 +229,7 @@
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Bairro</label>
+        <label class="block text-sm font-medium">Bairro <strong class="text-red-700">*</strong></label>
         <select id="bairro" class="w-full rounded-lg border p-2  @error('bairro') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="bairro">
           <option selected>{{ __('-- Selecione o bairro --') }}</option>
             @foreach($bairros as $bairro)
@@ -242,7 +242,7 @@
       </div>
       {{-- <div><label class="block text-sm font-medium">Zona </label><input type="text" class="w-full rounded-lg border p-2" /></div> --}}
       <div>
-        <label class="block text-sm font-medium">Avenida </label>
+        <label class="block text-sm font-medium">Avenida <strong class="text-red-700">*</strong></label>
         <input type="text" name="avenida" class="w-full rounded-lg border p-2 @error('avenida') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror"  value="{{ old('avenida', $dados['avenida'] ?? '') }}"/>
         @error('avenida')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -318,7 +318,7 @@
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Tipo de Construção</label>
+        <label class="block text-sm font-medium">Tipo de Construção <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2  @error('tipo_construcao') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="tipo_construcao">
             <option value="Vertical" {{ old('tipo_construcao', $dados['tipo_construcao'] ?? '')=='Vertical' ? 'selected' : ''}}>Vertical</option>
             <option value="Horizontal" {{ old('tipo_construcao', $dados['tipo_construcao'] ?? '') == 'Horizontal' ? 'selected': '' }}>Horizontal</option>
@@ -327,7 +327,7 @@
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
-      <div><label class="block text-sm font-medium">Classe do Imóvel</label>
+      <div><label class="block text-sm font-medium">Classe do Imóvel <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2 @error('classe_imovel') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="classe_imovel">
             <option selected>{{ __('-- Selecione a classe --') }}</option>
             @foreach ($classesImovel as $classe)
@@ -339,7 +339,7 @@
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Fator de Localização </label>
+        <label class="block text-sm font-medium">Fator de Localização <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2 @error('zona') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="zona">
             <option >{{ __('-- Selecione a zona --') }}</option>
             @foreach ($zonas as $zona)
@@ -350,7 +350,7 @@
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
-      <div><label class="block text-sm font-medium">Finalidade do Imóvel</label>
+      <div><label class="block text-sm font-medium">Finalidade do Imóvel <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2 @error('finalidade_imovel') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="finalidade_imovel">
             <option >{{ __('-- Selecione a finalidade --') }}</option>
             @foreach ($finalidadesImovel as $finalidade)
@@ -376,7 +376,7 @@
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Tipo de Valor Patrimonial</label>
+        <label class="block text-sm font-medium">Tipo de Valor Patrimonial <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2 @error('tipo_valor_patrimonial') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="tipo_valor_patrimonial">
             <option value="Calculado" {{ old('tipo_valor_patrimonial', $dados['tipo_valor_patrimonial'] ?? '')=='Calculado' ? 'selected' : ''}}>Calculado</option>
             <option value="Estipulado" {{ old('tipo_valor_patrimonial', $dados['tipo_valor_patrimonial'] ?? '')=='Estipulado' ? 'selected' : ''}}>Estipulado</option>
@@ -386,7 +386,7 @@
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Valor Patrimonial</label>
+        <label class="block text-sm font-medium">Valor Patrimonial <strong class="text-red-700">*</strong></label>
         <input type="number" name="valor_patrimonial" class="w-full rounded-lg border p-2 @error('valor_patrimonial') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" value="{{ old('valor_patrimonial', $dados['valor_patrimonial'] ?? '') }}"/>
         @error('valor_patrimonial')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

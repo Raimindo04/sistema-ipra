@@ -12,6 +12,7 @@
         </div>
 
         <div class="flex items-center gap-3">
+
             <!-- Botão Novo Contribuinte -->
             <a href="{{ route('contribuintes.create') }}"
                class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-md transition-all duration-200 ease-in-out">
@@ -20,7 +21,11 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="M12 4v16m8-8H4"/>
                 </svg>
-                Novo Contribuinte
+                Novo Imovel
+            </a>
+            <a href="{{ route('ipraforms.export') }}"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                ⬇️ Baixar Excel
             </a>
 
             <!-- Selecionar quantidade por página -->
@@ -95,7 +100,7 @@
                 @empty
                     <tr>
                         <td colspan="9" class="p-6 text-center text-gray-500 italic">
-                            Nenhum contribuinte encontrado.
+                            Nenhum Imovel encontrado.
                         </td>
                     </tr>
                 @endforelse
