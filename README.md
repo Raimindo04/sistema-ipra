@@ -25,25 +25,25 @@ Gerar chave da aplicação
 - docker exec -it ipra_form_app php artisan key:generate
 
 Rodar migrations
-docker exec -it ipra_form_app php artisan migrate --seed
+- docker exec -it ipra_form_app php artisan migrate --seed
 
 Acessar shell do container
-docker exec -it ipra_form_app bash
+- docker exec -it ipra_form_app bash
 
 
 
 # Para Producao  execute os comandos 
 Gere a build otimizada para construir e subir os containers:
-docker-compose -f docker-compose.prod.yml up -d --build
+- docker-compose -f docker-compose.prod.yml up -d --build
 
 Gerar chave da aplicação
-docker exec -it ipra_form_app php artisan key:generate
+- docker exec -it ipra_form_app php artisan key:generate
 
 Rodar migrations
-docker exec -it ipra_form_app php artisan migrate --seed --force
+- docker exec -it ipra_form_app php artisan migrate --seed --force
 
 Acessar shell do container
-docker exec -it ipra_form_app bash
+- docker exec -it ipra_form_app bash
 
 (Opcional) Gere cache Laravel para máxima performance:
-docker exec -it ipra_form_app php artisan optimize
+- docker exec -it ipra_form_app php artisan optimize
