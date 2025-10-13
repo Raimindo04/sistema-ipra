@@ -1,7 +1,7 @@
 ## Sistema-ipra
 >>>>>>> 126d2919ac595eb0ebb81a48326073597d5211fd
 
-Eh um sistema opensouce que pode ser usado para coleita de dados para o calculo de valor patrimonial.
+Eh um sistema open source que pode ser usado para coleita de dados para o calculo de valor patrimonial.
 NB: Assume-se que ja tenha o docker instalado.
 
 ## Como instalar
