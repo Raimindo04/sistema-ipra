@@ -70,8 +70,8 @@ class ContribuinteController extends Controller
 
     // Regras comuns (Imóvel)
     $regrasImovel = [
-        'posto_administrativo' => 'required|exists:posto_administrativos,id',
-        'bairro' => 'required|exists:bairros,id',
+        'posto_administrativo' => 'required|numeric|exists:posto_administrativos,id',
+        'bairro' => 'required|numeric|exists:bairros,id',
         'avenida' => 'required|string|max:100',
         'unidade_comunal' => 'nullable|string|max:100',
         'quarteirao' => 'nullable|string|max:50',
@@ -84,7 +84,7 @@ class ContribuinteController extends Controller
         'area_terreno' => 'required|numeric|min:1',
         'numero_andares' => 'nullable|integer|min:1',
         'tipo_construcao' => 'required|string|max:50',
-        'classe_imovel' => 'required|exists:classe_imovels,id',
+        'classe_imovel' => 'required|numeric|exists:classe_imovels,id',
         'zona' => 'required|exists:zonas,id',
         'finalidade_imovel' => 'required|exists:finalidade_imovels,id',
         'status_isencao' => 'nullable|string|max:255',
@@ -101,7 +101,7 @@ class ContribuinteController extends Controller
     $regrasSingular = [
         'ps_nome' => 'required|string|max:255',
         'ps_apelido' => 'required|string|max:255',
-        'ps_tipo_documento' => 'required|exists:tipo_documento_identificacaos,id',
+        'ps_tipo_documento' => 'required|numeric|exists:tipo_documento_identificacaos,id',
         'ps_numero_documento' => 'required|string|max:100',
         'ps_validade_documento' => 'required|date',
         'ps_nacionalidade' => 'required|string|max:100',

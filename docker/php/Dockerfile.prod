@@ -1,0 +1,61 @@
+# ================================================
+# 🐘 STAGE 1 — Build (Composer + Node + Optimize)
+# ================================================
+FROM composer:2 AS builder
+
+WORKDIR /var/www
+
+# Copiar arquivos necessários
+COPY composer.json composer.lock ./
+
+# Instalar dependências de produção
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-interaction
+
+# Copiar código-fonte
+COPY . .
+
+# Gerar autoload otimizado e cache
+RUN composer dump-autoload --optimize \
+    && php artisan config:clear \
+    && php artisan route:clear \
+    && php artisan view:clear \
+    && php artisan optimize
+
+# ================================================
+# 🐘 STAGE 2 — PHP-FPM (Runtime)
+# ================================================
+FROM php:8.3-fpm
+
+# Instalar extensões essenciais e Postgres
+RUN apt-get update && apt-get install -y \
+    libpq-dev libzip-dev zip unzip curl git \
+    && docker-php-ext-install pdo pdo_pgsql zip opcache \
+    && pecl install redis \
+    && docker-php-ext-enable redis
+
+# Copiar Composer da imagem builder
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Criar usuário seguro
+RUN useradd -m -d /var/www www && chown -R www:www /var/www
+USER www
+
+# Definir diretório de trabalho
+WORKDIR /var/www
+
+# Copiar código otimizado do builder
+COPY --chown=www:www --from=builder /var/www /var/www
+
+# Variáveis de ambiente padrão
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV PHP_OPCACHE_ENABLE=1
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0
+ENV PHP_OPCACHE_MAX_ACCELERATED_FILES=20000
+ENV PHP_OPCACHE_MEMORY_CONSUMPTION=256
+ENV PHP_OPCACHE_REVALIDATE_FREQ=0
+
+# Expor a porta do PHP-FPM
+EXPOSE 9000
+
+CMD ["php-fpm"]

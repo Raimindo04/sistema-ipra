@@ -129,7 +129,7 @@
       <div>
         <label class="block text-sm font-medium">Tipo de Documento de  Identificação <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2  @error('ps_tipo_documento') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="ps_tipo_documento">
-          <option>{{ __('-- Selecione o documento de  Identificação --') }}</option>
+          <option value="">{{ __('-- Selecione o documento de  Identificação --') }}</option>
             @foreach ($tiposDocumentoIdentificacao as $tipo)
                 <option value="{{ $tipo->id}}" {{ old('ps_tipo_documento', $dados['ps_tipo_documento'] ?? '') == $tipo->id ? 'selected' : ''}}>{{ $tipo->nome }}</option>
             @endforeach
@@ -219,7 +219,7 @@
       <div>
         <label class="block text-sm font-medium">Posto Administrativo <strong class="text-red-700">*</strong></label>
         <select id="postoAdministrativo" class="w-full rounded-lg border p-2  @error('posto_administrativo') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="posto_administrativo">
-          <option >{{ __('-- Selecione o posto administrativo --') }}</option>
+          <option value="">{{ __('-- Selecione o posto administrativo --') }}</option>
             @foreach($postosAdministrativos as $posto)
                 <option value="{{ $posto->id }}" {{ old('posto_administrativo', $dados['posto_administrativo'] ?? '') == $posto->id ? 'selected' : ''}}>{{ $posto->nome }}</option>
             @endforeach
@@ -231,7 +231,7 @@
       <div>
         <label class="block text-sm font-medium">Bairro <strong class="text-red-700">*</strong></label>
         <select id="bairro" class="w-full rounded-lg border p-2  @error('bairro') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="bairro">
-          <option selected>{{ __('-- Selecione o bairro --') }}</option>
+          <option value="">{{ __('-- Selecione o bairro --') }}</option>
             @foreach($bairros as $bairro)
                 <option value="{{ $bairro->id }}" {{ old('bairro', $dados['bairro'] ?? '') == $bairro->id ? 'selected' : ''}}>{{ $bairro->nome }}</option>
             @endforeach
@@ -329,7 +329,7 @@
       </div>
       <div><label class="block text-sm font-medium">Classe do Imóvel <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2 @error('classe_imovel') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="classe_imovel">
-            <option selected>{{ __('-- Selecione a classe --') }}</option>
+            <option value="">{{ __('-- Selecione a classe --') }}</option>
             @foreach ($classesImovel as $classe)
                 <option value="{{ $classe->id }}" {{ old('classe_imovel', $dados['classe_imovel'] ?? '') == $classe->id ? 'selected' : '' }}>{{ $classe->nome }} | P: {{ $classe->preco_m2 }}</option>
             @endforeach
@@ -341,7 +341,7 @@
       <div>
         <label class="block text-sm font-medium">Fator de Localização <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2 @error('zona') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="zona">
-            <option >{{ __('-- Selecione a zona --') }}</option>
+            <option value="">{{ __('-- Selecione a zona --') }}</option>
             @foreach ($zonas as $zona)
                 <option value="{{ $zona->id }}" {{ old('zona', $dados['zona'] ?? '') == $zona->id ? 'selected' : '' }}><strong>{{ $zona->nome }} </strong> | FL: {{ $zona->fator_localizacao }}</option>
             @endforeach
