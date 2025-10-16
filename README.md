@@ -8,48 +8,48 @@ NB: Assume-se que ja tenha o docker instalado.
 Clonar o repositorio do github
 
 # 
-    ->git clone https://github.com/Raimindo04/sistema-ipra.git
-    ->cd sistema-ipra
+    git clone https://github.com/Raimindo04/sistema-ipra.git
+    cd sistema-ipra
 
 Criar e configurar o arquivo
 # 
-    ->cp .env.example .env
+    cp .env.example .env
 
 ## para correr em ambiente de desenvolvimento
 
 Construir e subir os containers
 
 # 
-    ->docker-compose up -d --build
+    docker-compose up -d --build
 
 
 
 Gerar chave da aplicação
 # 
-    ->docker exec -it ipra_form_app php artisan key:generate
+    docker exec -it ipra_form_app php artisan key:generate
 
 Rodar migrations
 # 
-    -> docker exec -it ipra_form_app php artisan migrate --seed
+    docker exec -it ipra_form_app php artisan migrate --seed
 
 Acessar shell do container
 # 
-    ->  docker exec -it ipra_form_app bash
+    docker exec -it ipra_form_app bash
 
 
 
 # Para Producao  execute os comandos 
 #
-	-> docker-compose -f docker-compose.prod.yml build --no-cache
+	docker-compose -f docker-compose.prod.yml build --no-cache
 
 
 
 #
-	-> docker-compose -f docker-compose.prod.yml up -d
+	docker-compose -f docker-compose.prod.yml up -d
 
 
 #
-	-> docker exec -it container_name bash
+	docker exec -it container_name bash
 	
 # run composer install command inside app container
 	root@Container_id:/var/www# composer install
@@ -71,15 +71,16 @@ Acessar shell do container
 								
 								
 # outside the container run those command 
- -> docker-compose -f docker-compose.prod.yml down
- -> docker-compose -f docker-compose.prod.yml up -d --build
- 
- -> docker exec -it container_name bash -lc "php artisan config:clear && php artisan cache:clear && php artisan optimize"
+#
+    docker-compose -f docker-compose.prod.yml down
+    docker-compose -f docker-compose.prod.yml up -d --build
+    docker exec -it container_name bash -lc "php artisan config:clear && php artisan cache:clear && php artisan optimize"
  
  
  
  # run this docker command to create databases tables and  seed them
- -> docker exec -it ipra_form_app bash -lc "php artisan migrate --seed"
+#
+    docker exec -it ipra_form_app bash -lc "php artisan migrate --seed"
 
 								
 	
