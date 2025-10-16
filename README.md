@@ -33,17 +33,47 @@ Acessar shell do container
 
 
 # Para Producao  execute os comandos 
-Gere a build otimizada para construir e subir os containers:
-- docker-compose -f docker-compose.prod.yml up -d --build
+#
+	-> docker-compose -f docker-compose.prod.yml build --no-cache
 
-Gerar chave da aplicação
-- docker exec -it ipra_form_app php artisan key:generate
 
-Rodar migrations
-- docker exec -it ipra_form_app php artisan migrate --seed --force
 
-Acessar shell do container
-- docker exec -it ipra_form_app bash
+#
+	-> docker-compose -f docker-compose.prod.yml up -d
 
-(Opcional) Gere cache Laravel para máxima performance:
-- docker exec -it ipra_form_app php artisan optimize
+
+#
+	-> docker exec -it container_name bash
+	
+# run composer install command inside app container
+	root@Container_id:/var/www# composer install
+	root@Container_id:/var/www# php artisan key:generate
+	
+# run this command and copy the generated APP_KEY to the .env file  Variable APP_KEY;
+	root@Container_id:/var/www# cat .env | grep APP_KEY
+	
+# inside .env  
+	APP_KEY = ADD_GENERATED_APP_KEY
+	
+# return inside the container  to execute the below commands
+# run this command to clear all the cache
+	root@Container_id:/var/www# php artisan config:clear
+								php artisan cache:clear
+								php artisan route:clear
+								php artisan view:clear
+								php artisan optimize
+								
+								
+# outside the container run those command 
+ -> docker-compose -f docker-compose.prod.yml down
+ -> docker-compose -f docker-compose.prod.yml up -d --build
+ 
+ -> docker exec -it container_name bash -lc "php artisan config:clear && php artisan cache:clear && php artisan optimize"
+ 
+ 
+ 
+ # run this docker command to create databases tables and  seed them
+ -> docker exec -it ipra_form_app bash -lc "php artisan migrate --seed"
+
+								
+	
