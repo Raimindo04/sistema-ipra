@@ -86,7 +86,7 @@ class ContribuinteController extends Controller
         'tipo_construcao' => 'required|string|max:50',
         'classe_imovel' => 'required|numeric|exists:classe_imovels,id',
         'zona' => 'required|exists:zonas,id',
-        'finalidade_imovel' => 'required|exists:finalidade_imovels,id',
+        'finalidade_imovel' => 'required|numeric|exists:finalidade_imovels,id',
         'status_isencao' => 'nullable|string|max:255',
         'area_isentada' => 'nullable|numeric|min:0',
         'tipo_valor_patrimonial' => 'required|string|max:50',
