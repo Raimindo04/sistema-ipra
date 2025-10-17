@@ -352,7 +352,7 @@
       </div>
       <div><label class="block text-sm font-medium">Finalidade do Imóvel <strong class="text-red-700">*</strong></label>
         <select class="w-full rounded-lg border p-2 @error('finalidade_imovel') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" name="finalidade_imovel">
-            <option >{{ __('-- Selecione a finalidade --') }}</option>
+            <option value="">{{ __('-- Selecione a finalidade --') }}</option>
             @foreach ($finalidadesImovel as $finalidade)
                 <option value="{{ $finalidade->id }}" {{ old('finalidade_imovel', $dados['finalidade_imovel'] ?? '') == $finalidade->id ? 'selected' : '' }}>{{ $finalidade->nome }} | Taxa: {{ $finalidade->fator_finalidade }}</option>
             @endforeach
