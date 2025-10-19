@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile.prod
     container_name: ipra_form_app
+    restart: unless-stopped
     env_file:
       - .env
     volumes:
