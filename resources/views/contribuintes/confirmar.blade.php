@@ -359,7 +359,7 @@
 
                 <div class="flex flex-col bg-white p-4 rounded-xl border-l-4 border-blue-500 shadow-sm hover:shadow-md transition-all">
                     <span class="text-xs uppercase tracking-wide text-gray-500 font-semibold">
-                     Número de Andares
+                     Número de Pisos
                     </span>
                     <span class="text-gray-900 font-medium mt-1 break-words">
                         {{  $dataToShow['numero_andares'] }}
