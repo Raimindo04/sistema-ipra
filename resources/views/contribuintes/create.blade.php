@@ -291,27 +291,27 @@
         @enderror
       </div><div>
         <label class="block text-sm font-medium">Ano de construção <strong class="text-red-700">*</strong></label>
-        <input type="number" name="ano_construcao" value="{{ old('ano_construcao', $dados['ano_construcao'] ?? '') }}" class="w-full rounded-lg border p-2  @error('ano_construcao') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" />
+        <input type="number" name="ano_construcao" value="{{ old('ano_construcao', $dados['ano_construcao'] ?? '') }}" class="w-full rounded-lg border p-2  @error('ano_construcao') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" min="0" />
         @error('ano_construcao')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
         <label class="block text-sm font-medium">Área construída <strong class="text-red-700">*</strong></label>
-        <input type="number" name="area_construida" value="{{ old('area_construida', $dados['area_construida'] ?? '') }}" class="w-full rounded-lg border p-2  @error('area_construida') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" />
+        <input type="number" name="area_construida" value="{{ old('area_construida', $dados['area_construida'] ?? '') }}" class="w-full rounded-lg border p-2  @error('area_construida') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" step="0.01" min="0"/>
         @error('area_construida')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
         <label class="block text-sm font-medium">Área do terreno <strong class="text-red-700">*</strong></label>
-        <input type="number" name="area_terreno" value="{{ old('area_terreno', $dados['area_terreno'] ?? '') }}" class="w-full rounded-lg border p-2  @error('area_terreno') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" />
+        <input type="number" name="area_terreno" value="{{ old('area_terreno', $dados['area_terreno'] ?? '') }}" class="w-full rounded-lg border p-2  @error('area_terreno') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" step="0.01" min="0" />
         @error('area_terreno')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
       </div>
       <div>
-        <label class="block text-sm font-medium">Número de Andares</label>
+        <label class="block text-sm font-medium">Número de Pisos</label>
         <input type="number" name="numero_andares" class="w-full rounded-lg border p-2 @error('numero_andares') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" value="{{ old('numero_andares', $dados['numero_andares'] ?? '') }}"/>
         @error('numero_andares')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
