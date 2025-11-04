@@ -93,7 +93,7 @@ class ContribuinteController extends Controller
         'valor_patrimonial' => 'nullable|numeric|min:0',
         'tipo_aquisicao' => 'nullable|string|max:50',
         'numero_insercao_matriz' => 'nullable|string|max:50',
-        'pluscode' => 'nullable|string|max:50',
+        'pluscode' => 'required|string|max:50',
         'observacoes' => 'nullable|string|max:1000',
     ];
 
