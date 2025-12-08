@@ -1,0 +1,14 @@
+{
+    "Login": "Entrar",
+    "Register": "Criar Conta",
+    "Email Address": "Endereço de Email",
+    "Password": "Senha",
+    "Confirm Password": "Confirmar Senha",
+    "Remember Me": "Lembrar-me",
+    "Logout": "Sair",
+    "Click here to request another": "Clique aqui para solicitar outro",
+    "If you did not receive the email": "Se você não recebeu o email",
+    "Before proceeding, please check your email for a verification link.": "Antes de prosseguir, por favor verifique seu email para um link de verificação.",
+    "A fresh verification link has been sent to your email address.": "Um novo link de verificação foi enviado para o seu endereço de email.",
+    "Verify Your Email Address": "Verifique seu Endereço de Email"
+}

@@ -1,0 +1,79 @@
+# ========================================================
+# Etapa 1: Builder (instala dependências PHP)
+# ========================================================
+FROM php:8.2-fpm AS builder
+
+
+# Corrige repositórios instáveis do Debian 13 (trixie → bookworm)
+RUN find /etc/apt/sources.list.d/ -type f -name '*.list' -exec sed -i 's/trixie/bookworm/g' {} \; || true
+
+# Instala pacotes necessários
+RUN apt-get update && apt-get install -y \
+    git unzip libzip-dev libpng-dev libjpeg-dev libfreetype6-dev libpq-dev curl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_pgsql zip gd
+
+# Instala o Composer manualmente
+RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+
+WORKDIR /var/www
+
+# Copia apenas composer.json e composer.lock para aproveitar cache
+COPY composer.json composer.lock ./
+
+# Instala dependências de produção
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
+
+# Copia o restante do projeto
+COPY . .
+
+# Agora o artisan existe — podemos gerar cache
+RUN composer run-script post-autoload-dump \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
+# ========================================================
+# Etapa 2: PHP-FPM (imagem final otimizada)
+# ========================================================
+FROM php:8.2-fpm AS production
+
+
+# Corrige repositórios instáveis do Debian 13 (trixie → bookworm)
+RUN find /etc/apt/sources.list.d/ -type f -name '*.list' -exec sed -i 's/trixie/bookworm/g' {} \; || true
+
+
+RUN apt-get update && apt-get install -y \
+    libpq-dev libzip-dev libpng-dev libjpeg-dev libfreetype6-dev libonig-dev curl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_pgsql zip gd opcache \
+    && pecl install redis \
+    && docker-php-ext-enable redis opcache \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www
+
+# Copia a aplicação da etapa anterior
+COPY --from=builder /var/www /var/www
+# Copia o Composer da etapa builder para a imagem final
+COPY --from=builder /usr/local/bin/composer /usr/local/bin/composer
+
+# Configura o OPcache
+RUN echo "opcache.enable=1\n" \
+    "opcache.validate_timestamps=0\n" \
+    "opcache.max_accelerated_files=20000\n" \
+    "opcache.memory_consumption=256\n" \
+    "opcache.revalidate_freq=0" \
+    > /usr/local/etc/php/conf.d/opcache.ini
+
+# Ajusta permissões
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
+# Variáveis de ambiente
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV LOG_CHANNEL=stderr
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
