@@ -232,6 +232,7 @@ class DatabaseSeeder extends Seeder
                 'email' => $userData['email'],
                 'role_id' => $userData['role_id'],
                 'password' => Hash::make($userData['password']),
+                'active' => 1
             ]);
         });
     }
