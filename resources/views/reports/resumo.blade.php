@@ -64,7 +64,7 @@
 
     {{-- HEADER --}}
     <div class="header">
-        <img class="logo" src="data:image/png;base64,{{ base64_encode(file_get_contents(storage_path('app/public/images/logo.png'))) }}" alt="Logo" >
+        <img class="logo" src="{{ public_path('images/logo.png') }}" alt="Logo">
         <div class="sub-header"><strong>CONSELHO MUNICIPAL DA BEIRA</strong></div>
         <div class="mb-20"><strong>DEPARTAMENTO DE PLANO E FINANÇAS</strong></div>
         <div class="title">Ficha Resumo — Cadastro IMÓVEL</div>
