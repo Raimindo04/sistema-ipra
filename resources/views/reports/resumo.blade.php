@@ -292,7 +292,7 @@
         $qr = base64_encode(
             QrCode::format('png')
                 ->size(100)
-                ->generate(url('/imovel-details/'.$ipra->id))
+                ->generate(url('/imovel/'.$ipra->id.'/verify'))
         );
     @endphp
 
