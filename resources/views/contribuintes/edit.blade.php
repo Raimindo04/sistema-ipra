@@ -388,7 +388,7 @@
       </div>
       <div>
         <label class="block text-sm font-medium">Valor Patrimonial <strong class="text-red-700">*</strong></label>
-        <input type="number" name="valor_patrimonial" class="w-full rounded-lg border p-2 @error('valor_patrimonial') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" value="{{ old('valor_patrimonial', $dados['valor_patrimonial'] ?? '') }}"/>
+        <input type="number" name="valor_patrimonial" class="w-full rounded-lg border p-2 @error('valor_patrimonial') border-red-500 ring-1 ring-red-500 @else border-blue-300 @enderror" value="{{ old('valor_patrimonial', $dados['valor_patrimonial'] ?? '') }}" step="0.01"/>
         @error('valor_patrimonial')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
