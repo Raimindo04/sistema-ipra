@@ -50,6 +50,7 @@ Route::post('/contribuintes/{ipraForm}/update', [ContribuinteController::class, 
 Route::get('/contribuintes/limpar', [ContribuinteController::class, 'limpar'])->name('contribuintes.limpar');
 Route::get('/contribuintes/{ipraForm}/historico', [ContribuinteController::class, 'history'])->name('contribuintes.history');
 Route::get('/contribuintes/{ipraForm}/resumoPDF', [ContribuinteController::class, 'resumoPDF'])->name('contribuintes.resumoPDF');
+Route::get('/imovel/{ipraForm}/verify', [App\Http\Controllers\GuestController::class, 'index'])->name('imovel.verify');
 Route::resource('permissions', PermissionController::class);
 Route::resource('roles', RoleController::class);
 Route::resource('users', UserController::class);
