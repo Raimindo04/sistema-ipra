@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\IpraFormsExport;
+use App\Helpers\ConversorHelper;
 use App\Models\Bairro;
 use App\Models\ClasseImovel;
 use App\Models\FinalidadeImovel;
@@ -60,7 +61,7 @@ class ContribuinteController extends Controller
         $Ae = $ipraForm->area_construida; //Area edificada
         $P = $ipraForm->classeImovel->preco_m2; // Preco medio por Metro quadrado
         $Fl = $ipraForm->zona->fator_localizacao; // Factor de Localizacao
-        $Fa = $this->calcularFactorAntiguidade($ipraForm->ano_construcao); // Factor de Antiguidade
+        $Fa = ConversorHelper::calcularFactorAntiguidade($ipraForm->ano_construcao, $ipraForm->finalidadeImovel); // Factor de Antiguidade
         $Al = $ipraForm->area_terreno - $ipraForm->area_construida; // Area de Logradouro
         $taxaUso = $ipraForm->finalidadeImovel->fator_finalidade;
 
@@ -276,7 +277,7 @@ class ContribuinteController extends Controller
         $Ae = $dataToShow['area_construida']; //Area edificada
         $P = $classeImovel->preco_m2; // Preco medio por Metro quadrado
         $Fl = $zona->fator_localizacao; // Factor de Localizacao
-        $Fa = $this->calcularFactorAntiguidade($dataToShow['ano_construcao']); // Factor de Antiguidade
+        $Fa = ConversorHelper::calcularFactorAntiguidade($dataToShow['ano_construcao'], $finalidadeImovel); // Factor de Antiguidade
         $Al = $dataToShow['area_terreno'] - $dataToShow['area_construida']; // Area de Logradouro
         $taxaUso = $finalidadeImovel->fator_finalidade;
 
@@ -293,88 +294,76 @@ class ContribuinteController extends Controller
     }
 
     public function salvar()
-{
-    $this->authorize('create', IpraForm::class);
-    $dados = session('ipra_dados');
-    $saveData['tipo_pessoa'] = $dados['tipoPessoa'];
-    if($dados['tipoPessoa'] === 'Singular') {
-        $saveData['ps_nome'] = $dados['ps_nome'];
-        $saveData['ps_apelido'] = $dados['ps_apelido'];
-        $saveData['tipo_documento_identificacao_id'] = $dados['ps_tipo_documento'];
-        $saveData['ps_numero_documento'] = $dados['ps_numero_documento'];
-        $saveData['ps_validade_documento'] = $dados['ps_validade_documento'];
-        $saveData['ps_nacionalidade'] = $dados['ps_nacionalidade'];
-        $saveData['nuit'] = $dados['ps_nuit'];
-        $saveData['telefone'] = $dados['ps_telefone'];
-        $saveData['telefone_fixo'] = $dados['ps_telefone_fixo'];
-        $saveData['telefone_opcional'] = $dados['ps_telefone_opcional'];
-        $saveData['endereco'] = $dados['ps_endereco'];
-        $saveData['email'] = $dados['ps_email'];
-    } else {
-        $saveData['pj_representante'] = $dados['pj_representante'];
-        $saveData['pj_nome_empresa'] = $dados['pj_nome_empresa'];
-        $saveData['tipo_documento_identificacao_id'] = 1; // Assuming '1' is the ID for 'Sem Documento'
-        $saveData['nuit'] = $dados['pj_nuit'];
-        $saveData['telefone'] = $dados['pj_telefone'];
-        $saveData['telefone_fixo'] = $dados['pj_telefone_fixo'];
-        $saveData['telefone_opcional'] = $dados['pj_telefone_opcional'];
-        $saveData['endereco'] = $dados['pj_endereco'];
-        $saveData['email'] = $dados['pj_email'];
-    }
-    $saveData['posto_administrativo_id'] = $dados['posto_administrativo'];
-    $saveData['bairro_id'] = $dados['bairro'];
-    $saveData['avenida'] = $dados['avenida'];
-    $saveData['unidade_comunal'] = $dados['unidade_comunal'];
-    $saveData['quarteirao'] = $dados['quarteirao'];
-    $saveData['proximo_de'] = $dados['proximo_de'];
-    $saveData['numero_talhao'] = $dados['numero_talhao'];
-    $saveData['numero_parcela'] = $dados['numero_parcela'];
-    $saveData['numero_contribuinte'] = $dados['numero_contribuinte'];
-    $saveData['ano_construcao'] = $dados['ano_construcao'];
-    $saveData['area_construida'] = $dados['area_construida'];
-    $saveData['area_terreno'] = $dados['area_terreno'];
-    $saveData['numero_andares'] = $dados['numero_andares'];
-    $saveData['tipo_construcao'] = $dados['tipo_construcao'];
-    $saveData['classe_imovel_id'] = $dados['classe_imovel'];
-    $saveData['zona_id'] = $dados['zona'];
-    $saveData['finalidade_imovel_id'] = $dados['finalidade_imovel'];
-    $saveData['status_isencao'] = $dados['status_isencao'] ?? null;
-    $saveData['area_isentada'] = $dados['area_isentada'] ?? null;
-    $saveData['tipo_valor_patrimonial'] = $dados['tipo_valor_patrimonial'];
-    $saveData['valor_patrimonial'] = $dados['valor_patrimonial'];
-    $saveData['tipo_aquisicao'] = $dados['tipo_aquisicao'];
-    $saveData['numero_insercao_matriz'] = $dados['numero_insercao_matriz'] ?? null;
-    $saveData['pluscode'] = $dados['pluscode'] ?? null;
-    $saveData['observacoes'] = $dados['observacoes'] ?? null;
-    $saveData['user_id'] = auth()->id();
-
-    \App\Models\IpraForm::create($saveData);
-    // Model::create($dados);
-    session()->forget('ipra_dados');
-    return redirect()->route('contribuintes.create')->with('success', 'Dados salvos com sucesso!');
-}
-
-   public function limpar()
-{
-    // $dados = session('ipra_dados');
-    // Model::create($dados);
-    session()->forget('ipra_dados');
-    return redirect()->route('contribuintes.create')->with('success', 'Dados limpos com sucesso!');
-}
-
-    public function calcularFactorAntiguidade($ano)
     {
-        $valor = 1.0;
-        if ($ano >= 2021) $valor = 1.0;
-        else if ($ano >= 2015) $valor = 0.95;
-        else if ($ano >= 2010) $valor = 0.90;
-        else if ($ano >= 2005) $valor = 0.85;
-        else if ($ano >= 1995) $valor = 0.80;
-        else if ($ano >= 1985) $valor = 0.75;
-        else if ($ano >= 1975) $valor = 0.70;
-        else $valor = 0.65;
-        return $valor;
+        $this->authorize('create', IpraForm::class);
+        $dados = session('ipra_dados');
+        $saveData['tipo_pessoa'] = $dados['tipoPessoa'];
+        if($dados['tipoPessoa'] === 'Singular') {
+            $saveData['ps_nome'] = $dados['ps_nome'];
+            $saveData['ps_apelido'] = $dados['ps_apelido'];
+            $saveData['tipo_documento_identificacao_id'] = $dados['ps_tipo_documento'];
+            $saveData['ps_numero_documento'] = $dados['ps_numero_documento'];
+            $saveData['ps_validade_documento'] = $dados['ps_validade_documento'];
+            $saveData['ps_nacionalidade'] = $dados['ps_nacionalidade'];
+            $saveData['nuit'] = $dados['ps_nuit'];
+            $saveData['telefone'] = $dados['ps_telefone'];
+            $saveData['telefone_fixo'] = $dados['ps_telefone_fixo'];
+            $saveData['telefone_opcional'] = $dados['ps_telefone_opcional'];
+            $saveData['endereco'] = $dados['ps_endereco'];
+            $saveData['email'] = $dados['ps_email'];
+        } else {
+            $saveData['pj_representante'] = $dados['pj_representante'];
+            $saveData['pj_nome_empresa'] = $dados['pj_nome_empresa'];
+            $saveData['tipo_documento_identificacao_id'] = 1; // Assuming '1' is the ID for 'Sem Documento'
+            $saveData['nuit'] = $dados['pj_nuit'];
+            $saveData['telefone'] = $dados['pj_telefone'];
+            $saveData['telefone_fixo'] = $dados['pj_telefone_fixo'];
+            $saveData['telefone_opcional'] = $dados['pj_telefone_opcional'];
+            $saveData['endereco'] = $dados['pj_endereco'];
+            $saveData['email'] = $dados['pj_email'];
+        }
+        $saveData['posto_administrativo_id'] = $dados['posto_administrativo'];
+        $saveData['bairro_id'] = $dados['bairro'];
+        $saveData['avenida'] = $dados['avenida'];
+        $saveData['unidade_comunal'] = $dados['unidade_comunal'];
+        $saveData['quarteirao'] = $dados['quarteirao'];
+        $saveData['proximo_de'] = $dados['proximo_de'];
+        $saveData['numero_talhao'] = $dados['numero_talhao'];
+        $saveData['numero_parcela'] = $dados['numero_parcela'];
+        $saveData['numero_contribuinte'] = $dados['numero_contribuinte'];
+        $saveData['ano_construcao'] = $dados['ano_construcao'];
+        $saveData['area_construida'] = $dados['area_construida'];
+        $saveData['area_terreno'] = $dados['area_terreno'];
+        $saveData['numero_andares'] = $dados['numero_andares'];
+        $saveData['tipo_construcao'] = $dados['tipo_construcao'];
+        $saveData['classe_imovel_id'] = $dados['classe_imovel'];
+        $saveData['zona_id'] = $dados['zona'];
+        $saveData['finalidade_imovel_id'] = $dados['finalidade_imovel'];
+        $saveData['status_isencao'] = $dados['status_isencao'] ?? null;
+        $saveData['area_isentada'] = $dados['area_isentada'] ?? null;
+        $saveData['tipo_valor_patrimonial'] = $dados['tipo_valor_patrimonial'];
+        $saveData['valor_patrimonial'] = $dados['valor_patrimonial'];
+        $saveData['tipo_aquisicao'] = $dados['tipo_aquisicao'];
+        $saveData['numero_insercao_matriz'] = $dados['numero_insercao_matriz'] ?? null;
+        $saveData['pluscode'] = $dados['pluscode'] ?? null;
+        $saveData['observacoes'] = $dados['observacoes'] ?? null;
+        $saveData['user_id'] = auth()->id();
+
+        \App\Models\IpraForm::create($saveData);
+        // Model::create($dados);
+        session()->forget('ipra_dados');
+        return redirect()->route('contribuintes.create')->with('success', 'Dados salvos com sucesso!');
     }
+
+    public function limpar()
+    {
+        // $dados = session('ipra_dados');
+        // Model::create($dados);
+        session()->forget('ipra_dados');
+        return redirect()->route('contribuintes.create')->with('success', 'Dados limpos com sucesso!');
+    }
+
+
 
      public function export()
     {
@@ -435,7 +424,7 @@ class ContribuinteController extends Controller
         $Ae = $dataToShow['area_construida']; //Area edificada
         $P = $classeImovel->preco_m2; // Preco medio por Metro quadrado
         $Fl = $zona->fator_localizacao; // Factor de Localizacao
-        $Fa = $this->calcularFactorAntiguidade($dataToShow['ano_construcao']); // Factor de Antiguidade
+        $Fa = ConversorHelper::calcularFactorAntiguidade($dataToShow['ano_construcao'], $finalidadeImovel); // Factor de Antiguidade
         $Al = $dataToShow['area_terreno'] - $dataToShow['area_construida']; // Area de Logradouro
         $taxaUso = $finalidadeImovel->fator_finalidade;
 
@@ -523,7 +512,7 @@ class ContribuinteController extends Controller
         $Ae = $ipraForm->area_construida; //Area edificada
         $P = $ipraForm->classeImovel->preco_m2; // Preco medio por Metro quadrado
         $Fl = $ipraForm->zona->fator_localizacao; // Factor de Localizacao
-        $Fa = $this->calcularFactorAntiguidade($ipraForm->ano_construcao); // Factor de Antiguidade
+        $Fa = ConversorHelper::calcularFactorAntiguidade($ipraForm->ano_construcao, $ipraForm->finalidadeImovel); // Factor de Antiguidade
         $Al = $ipraForm->area_terreno - $ipraForm->area_construida; // Area de Logradouro
         $taxaUso = $ipraForm->finalidadeImovel->fator_finalidade;
 

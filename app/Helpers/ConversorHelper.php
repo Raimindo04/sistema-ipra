@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\FinalidadeImovel;
 use App\Models\IpraForm;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +59,44 @@ class ConversorHelper
 
         return $data;
     }
+
+
+    public static function calcularFactorAntiguidade(int $anoConstrucao, FinalidadeImovel $finalidade)
+    {
+        $anoAtual = (int) date('Y');
+        $idade = $anoAtual - $anoConstrucao;
+
+
+        // HABITAÇÃO
+        if ($finalidade->id === 1) {
+
+            if ($idade < 5) return 1.00;
+            if ($idade <= 10) return 1.00;
+            if ($idade <= 15) return 0.95;
+            if ($idade <= 20) return 0.90;
+            if ($idade <= 30) return 0.85;
+            if ($idade <= 40) return 0.75;
+            if ($idade <= 50) return 0.65;
+            return 0.55;
+        }
+
+        // COMERCIAL / INDUSTRIAL / OUTROS
+        if ($finalidade->id !== 1) {
+
+            if ($idade < 5) return 1.00;
+            if ($idade <= 10) return 0.95;
+            if ($idade <= 15) return 0.90;
+            if ($idade <= 20) return 0.85;
+            if ($idade <= 30) return 0.80;
+            if ($idade <= 40) return 0.75;
+            if ($idade <= 50) return 0.70;
+            return 0.65;
+        }
+
+        // Tipo inválido
+        throw new \InvalidArgumentException('Tipo de prédio inválido');
+    }
+
 }
 
 
