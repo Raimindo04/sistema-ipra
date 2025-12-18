@@ -72,5 +72,5 @@ Route::get('/imovel-details/{ipraForm}', function (IpraForm $ipraForm) {
     $Vp = (($Ae * $P * $Fa) + ( 0.05 * $Al * $P  )) * $Fl;
     $ipra = $Vp * $taxaUso;
 
-    return view('contribuintes.show', compact('ipraForm','Ae', 'P', 'Fl', 'Fa', 'Al', 'taxaUso', 'Vp', 'ipra'));
+    return view('contribuintes.view', compact('ipraForm','Ae', 'P', 'Fl', 'Fa', 'Al', 'taxaUso', 'Vp', 'ipra'));
 })->name('imovel.details');
